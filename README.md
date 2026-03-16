@@ -305,7 +305,7 @@ flutter run
 
 ## Tampilan Aplikasi
 
-![Screenshot Aplikasi](images/screenshot.png)
+![Screenshot Aplikasi](images/aplikasi.png)
 
 ---
 
