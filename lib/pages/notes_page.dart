@@ -44,6 +44,12 @@ class _NotesPageState extends State<NotesPage> {
                  // clear controller
                  textController.clear();
                  Navigator.pop(context);
+                 ScaffoldMessenger.of(context).showSnackBar(
+                   const SnackBar(
+                     content: Text('Note created successfully!'),
+                     behavior: SnackBarBehavior.floating,
+                   ),
+                 );
               }
             },
             child: const Text("Create"),
@@ -83,6 +89,12 @@ class _NotesPageState extends State<NotesPage> {
                     // clear controller
                     textController.clear();
                     Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Note updated successfully!'),
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
                   }
                 },
                 child: const Text("Update"))
@@ -92,7 +104,36 @@ class _NotesPageState extends State<NotesPage> {
 
   // delete a note
   void deleteNote(int id) {
-    context.read<NoteDatabase>().deleteNote(id);
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Delete Note"),
+        content: const Text("Are you sure you want to delete this note?"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancel"),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.redAccent,
+              foregroundColor: Colors.white,
+            ),
+            onPressed: () {
+              context.read<NoteDatabase>().deleteNote(id);
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Note deleted successfully!'),
+                  behavior: SnackBarBehavior.floating,
+                ),
+              );
+            },
+            child: const Text("Delete"),
+          )
+        ],
+      ),
+    );
   }
 
   @override
