@@ -32,28 +32,30 @@ class _NotesPageState extends State<NotesPage> {
         actions: [
           TextButton(
             onPressed: () {
-               Navigator.pop(context); // close first, to match standard behavior? but original doesn't matter
+              Navigator.pop(
+                context,
+              ); // close first, to match standard behavior? but original doesn't matter
             },
             child: const Text("Cancel"),
           ),
           ElevatedButton(
             onPressed: () {
               if (textController.text.isNotEmpty) {
-                 // add to db
-                 context.read<NoteDatabase>().addNote(textController.text);
-                 // clear controller
-                 textController.clear();
-                 Navigator.pop(context);
-                 ScaffoldMessenger.of(context).showSnackBar(
-                   const SnackBar(
-                     content: Text('Note created successfully!'),
-                     behavior: SnackBarBehavior.floating,
-                   ),
-                 );
+                // add to db
+                context.read<NoteDatabase>().addNote(textController.text);
+                // clear controller
+                textController.clear();
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Note created successfully!'),
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
               }
             },
             child: const Text("Create"),
-          )
+          ),
         ],
       ),
     );
@@ -68,38 +70,41 @@ class _NotesPageState extends State<NotesPage> {
   void updateNote(Note note) {
     textController.text = note.text;
     showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text("Update Note"),
-          content: TextField(controller: textController),
-          actions: [
-            TextButton(
-              onPressed: () {
-                 textController.clear();
-                 Navigator.pop(context);
-              },
-              child: const Text("Cancel"),
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  if (textController.text.isNotEmpty) {
-                    context
-                        .read<NoteDatabase>()
-                        .updateNote(note.id, textController.text);
-                    // clear controller
-                    textController.clear();
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Note updated successfully!'),
-                        behavior: SnackBarBehavior.floating,
-                      ),
-                    );
-                  }
-                },
-                child: const Text("Update"))
-          ],
-        ));
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Update Note"),
+        content: TextField(controller: textController),
+        actions: [
+          TextButton(
+            onPressed: () {
+              textController.clear();
+              Navigator.pop(context);
+            },
+            child: const Text("Cancel"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              if (textController.text.isNotEmpty) {
+                context.read<NoteDatabase>().updateNote(
+                  note.id,
+                  textController.text,
+                );
+                // clear controller
+                textController.clear();
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Note updated successfully!'),
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
+              }
+            },
+            child: const Text("Update"),
+          ),
+        ],
+      ),
+    );
   }
 
   // delete a note
@@ -130,7 +135,7 @@ class _NotesPageState extends State<NotesPage> {
               );
             },
             child: const Text("Delete"),
-          )
+          ),
         ],
       ),
     );
@@ -145,47 +150,68 @@ class _NotesPageState extends State<NotesPage> {
     List<Note> currentNotes = noteDatabase.currentNotes;
 
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Notes', style: TextStyle(fontWeight: FontWeight.bold)),
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          foregroundColor: Colors.black87,
+      appBar: AppBar(
+        title: const Text(
+          'Notes',
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: createNote,
-          child: const Icon(Icons.add),
-        ),
-        body: currentNotes.isEmpty
-            ? const Center(child: Text("No notes yet. Add one!"))
-            : ListView.builder(
-                itemCount: currentNotes.length,
-                itemBuilder: (context, index) {
-                  // get individual note
-                  final note = currentNotes[index];
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.black87,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: createNote,
+        child: const Icon(Icons.add),
+      ),
+      body: currentNotes.isEmpty
+          ? const Center(child: Text("No notes yet. Add one!"))
+          : ListView.builder(
+              itemCount: currentNotes.length,
+              itemBuilder: (context, index) {
+                // get individual note
+                final note = currentNotes[index];
 
-                  // list tile UI
-                  return Card(
-                    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    elevation: 1,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    child: ListTile(
-                      title: Text(note.text),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // edit button
-                          IconButton(
-                              onPressed: () => updateNote(note),
-                              icon: const Icon(Icons.edit, color: Colors.blueAccent)),
-                          // delete button
-                          IconButton(
-                              onPressed: () => deleteNote(note.id),
-                              icon: const Icon(Icons.delete, color: Colors.redAccent))
-                        ],
-                      ),
+                // list tile UI
+                return Card(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  elevation: 1,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: ListTile(
+                    title: Text(note.text),
+                    subtitle: Text(
+                      "Created At: ${note.createdAt.day}/${note.createdAt.month}/${note.createdAt.year} ${note.createdAt.hour}:${note.createdAt.minute.toString().padLeft(2, '0')}",
+                      style: const TextStyle(fontSize: 12, color: Colors.grey),
                     ),
-                  );
-                },
-              ));
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // edit button
+                        IconButton(
+                          onPressed: () => updateNote(note),
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Colors.blueAccent,
+                          ),
+                        ),
+                        // delete button
+                        IconButton(
+                          onPressed: () => deleteNote(note.id),
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.redAccent,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+    );
   }
 }
