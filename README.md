@@ -2,6 +2,8 @@
   <h1>Age + Gender Estimation in Flutter with TensorFlow Lite</h1>
 </div>
 
+![banner](images/Screenshot_20260507_233844.jpg)
+
 Adaptasi Flutter dari proyek Android [Age-Gender_Estimation_TF-Android](https://github.com/shubham0204/Age-Gender_Estimation_TF-Android) untuk estimasi usia dan klasifikasi jenis kelamin menggunakan TensorFlow Lite.
 
 ---
@@ -9,6 +11,7 @@ Adaptasi Flutter dari proyek Android [Age-Gender_Estimation_TF-Android](https://
 ### **Daftar Isi**
 
 * [Ringkasan](#-ringkasan)
+* [Tampilan Aplikasi](#-tampilan-aplikasi)
 * [Fitur Utama](#-fitur-utama)
 * [Cara Penggunaan](#-cara-penggunaan)
 * [Model TensorFlow Lite (Vanilla vs. Lite)](#-model-tensorflow-lite)
@@ -22,6 +25,24 @@ Adaptasi Flutter dari proyek Android [Age-Gender_Estimation_TF-Android](https://
 Aplikasi ini mendeteksi wajah dalam gambar menggunakan **Google ML Kit Face Detection** dan kemudian menggunakan dua model **TensorFlow Lite** yang berbeda untuk memperkirakan usia dan mengklasifikasikan jenis kelamin dari wajah yang terdeteksi.
 
 Aplikasi ini mendukung berbagai varian model (Quantized, Non-quantized, dan Lite) serta akselerasi hardware seperti GPU Delegate untuk performa yang lebih cepat.
+
+---
+
+## Tampilan Aplikasi
+
+Berikut adalah beberapa tampilan dari aplikasi Age & Gender Estimation:
+
+| Layar Utama | Inisialisasi Model |
+| :---: | :---: |
+| ![Layar Utama](images/Screenshot_20260507_233707.jpg) | ![Inisialisasi](images/Screenshot_20260507_233717.jpg) |
+| *Layar awal untuk memilih foto dari kamera atau galeri.* | *Opsi pemilihan model TFLite dan akselerasi GPU.* |
+
+### Contoh Hasil Prediksi
+
+| Hasil 1 (Remaja) | Hasil 2 (Dewasa) | Hasil 3 (Dewasa) |
+| :---: | :---: | :---: |
+| ![Hasil 1](images/Screenshot_20260507_233844.jpg) | ![Hasil 2](images/Screenshot_20260507_234122.jpg) | ![Hasil 3](images/Screenshot_20260507_234206.jpg) |
+| *Laki-laki, 17 Tahun* | *Laki-laki, 36 Tahun* | *Perempuan, 37 Tahun* |
 
 ---
 
