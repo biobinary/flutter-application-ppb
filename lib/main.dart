@@ -1,32 +1,23 @@
 import 'package:flutter/material.dart';
+import 'ui/home_screen.dart';
 
-void main() => runApp(
-  MaterialApp(
-    home: Scaffold(
-      appBar: AppBar(
-        title: Text('My First App'),
-        centerTitle: true,
-        backgroundColor: Colors.red[600],
-      ),
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MyApp());
+}
 
-      body: Center(
-        child: Text(
-          'hello ninjas!',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 2,
-            color: Colors.grey[600],
-            fontFamily: 'IndieFlower',
-          ),
-        ),
-      ),
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => {},
-        child: Text('click'),
-        backgroundColor: Colors.red[600],
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Age & Gender Estimation',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        useMaterial3: true,
       ),
-    ),
-  ),
-);
+      home: const HomeScreen(),
+    );
+  }
+}
